@@ -12,21 +12,13 @@ const Genre = mongoose.model('genre', new mongoose.Schema({
   }
 }));
 
-// Get all genres
+// read all genres
 router.get('/',async (req, res) => {
   const genres = await Genre.find().sort('name');
   res.send(genres);
 });
 
-// Get one genre
-router.get('/:id', async (req, res) => {
-  const genre = await Genre.findById(req.params.id);
-  if (!genre) return res.status(404).send('Genre with the given ID was not found.');
-
-  res.send(genre);
-});
-
-// Create new genre
+// create new genre
 router.post('/', async (req, res) => {
   const {error} = validateGenre(req.body);
   if(error) return res.status(400).send(error.details[0].message);
@@ -37,7 +29,15 @@ router.post('/', async (req, res) => {
   res.send(genre);
 });
 
-// Update genre
+// read one genre
+router.get('/:id', async (req, res) => {
+  const genre = await Genre.findById(req.params.id);
+  if (!genre) return res.status(404).send('Genre with the given ID was not found.');
+
+  res.send(genre);
+});
+
+// update genre
 router.put('/:id', async (req, res) =>{
   const {error} = validateGenre(req.body);
   if(error) return res.status(400).send(error.details[0].message);
@@ -50,7 +50,7 @@ router.put('/:id', async (req, res) =>{
   res.send(genre);
 });
 
-// Delete genre
+// delete genre
 router.delete('/:id',async (req, res) => {
   const genre = await Genre.findByIdAndRemove(req.params.id);
   if (!genre) return res.status(404).send('Genre with the given ID was not found.');
