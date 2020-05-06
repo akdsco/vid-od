@@ -1,0 +1,6 @@
+{
+  "name": "Vid od - Development",
+  "db": {
+    "mongooseURI": "mongodb://localhost/vidod"
+  }
+}
